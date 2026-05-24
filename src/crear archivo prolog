@@ -1,0 +1,31 @@
+from motor_prolog import MotorProlog
+import time
+
+print("=== Test de tiempo de Prolog ===\n")
+
+motor = MotorProlog()
+motor.limpiar()
+
+# Mapa más pequeño para prueba (10x10)
+ancho = 10
+alto = 10
+mapa = [['libre' for _ in range(alto)] for _ in range(ancho)]
+
+# Añadir pocos muros
+for i in range(3):
+    mapa[3][4+i] = 'muro'
+    mapa[7][7-i] = 'muro'
+
+pos_tanque = (0, 0)
+pos_jugador = (9, 9)
+
+print("Actualizando mapa...")
+start = time.time()
+motor.actualizar_mapa(mapa, [], pos_jugador)
+print(f"Tiempo update: {time.time()-start:.4f}s")
+
+print("\nConsultando ruta...")
+start = time.time()
+ruta = motor.obtener_ruta(0, pos_tanque[0], pos_tanque[1], pos_jugador[0], pos_jugador[1])
+print(f"Tiempo consulta: {time.time()-start:.4f}s")
+print(f"Ruta: {ruta}")
